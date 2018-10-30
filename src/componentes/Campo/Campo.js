@@ -15,109 +15,65 @@ if condicao mostra erro
 
 
 //TRANSFORMANDO A FUNÇÃO EM CLASSE
-//CRIAR UMA FUNÇÃO CONSTRUTORA E DENTRO CRIAR UM OBEJTO ESTADO INICIAL
+//CRIAR UMA FUNÇÃO CONSTRUTORA E DENTRO CRIAR UM OBJETO ESTADO INICIAL
 //CRIAR UMA FUNÇÃO VALIDA E CHAMAR A FUNÇÃO QUANDO O EVENTO ACONTECER
-class Campo extends React.Component{
-    constructor(props){
+
+class Campo extends React.Component {
+    constructor(props) {
         super(props)
-        this.state={erro: ''}
-    }    
-   
+        this.state = {
+            modificado:false,erro: '' }
+    }
+    temErro() {
+        if(!this.state.modificado|| this.state.erro){
+            return true
+        }else{
+
+        }
+    }
+
     valida = (evento) => {
-        const input = evento.target //document.getElementById('id')
-        //console.log('chamou o valida')
-        //console.log('alvo do evento', input)
-        if (this.props.required && input.value.trim() === '') {// email obrigatorio
-            this.setState({ erro: "Campo obrigatório" })
-            //console.log('O estado é', this.state)
-        } else if (this.props.minLength && input.value.length < this.props.minLength) {
+        const input = evento.target
+        const { value, type } = input
+        const { required, minLength } = this.props
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        let mensagem = ''
+
+        if (required && value.trim() === '') {// email obrigatorio
+            mensagem = "Campo obrigatório"
+        } else if (minLength && value.length < minLength) {
             //pelo menos 10 carateres
-            this.setState({ erro: `Digite pelo menos ${this.props.minLength} caracteres` })
-        } else if( this.props.pattern && !this.props.pattern.test(input.value)) {
-            this.setState ({ erro: "Valor Inválido" })
-        }else {
-            this.setState({ erro: "" })
+            mensagem = `Digite pelo menos ${minLength} caracteres`
+        } else if (type === 'email' && !regex.test(value)) {
+            mensagem = 'valor inválido'
         }
+        this.setState({ erro: mensagem }, this.props.onChange())
 
-        }
-            
 
-    
-    render(){
-        //console.log('Quero ver se o render foi chamado')
-        //console.log(`this.props do campo ${this.props.name}`, this.props)
+    }
+
+
+
+    render() {
+
         return (
             <div>
-                <input 
+                <input
                     id={this.props.id}
                     className="campo"
                     type={this.props.type}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     onChange={this.valida}
-              />
-              <p className="grupo_erro">{this.state.erro}</p>
+                    onBlur={this.valida}
+                />
+                <p className="grupo_erro">{this.state.erro}</p>
             </div>
-          )
+        )
     }
 }
 
 
 export default Campo
-
-
-
-
-// class Campo extends React.Component{
-//     constructor(props){
-//         super(props)
-//         this.state={
-//             erro:""
-//         }
-
-//     }
-//     valida=(evento) => {
-//         const alvo= evento.target
-//         if (this.props.obrigatorio && alvo.value.trim() ===""){
-//             const state = {
-//                 erro:"Campo obrigatorio"
-//             }
-//             this.setState= (state)
-//         }
-//     }
-
-//     render(){
-//         return(
-//             <div>
-//                 <input
-//                 id={this.props.id}
-//                 className="campo"
-//                 type={this.props.type}
-//                 name={this.props.name}
-//                 placeholder={this.props.placeholder}
-//                 onChange={this.valida}
-//                 />
-                
-//                 <p className="grupo__erro">
-//                     {this.state.erro}
-//                 </p>  
-//             </div>  
-//         )
-//     }
-// }
-
-
-
-
-
-
-
-// // <Campo id='senha' type ='password' name='senha' placeholder ='...'></Campo>
-// // const props ={
-// //     id: 'senha'
-
-// // }
-
-
 
 
