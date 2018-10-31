@@ -16,7 +16,7 @@ class Login extends Component{
     this.state={desabilitado: true}
 
   }
-  habilitaOudesabilita = () =>{  
+  habilitaOuDesabilita = () =>{  
 
     const campoEmail= this.emailRef.current
     const campoSenha= this.senhaRef.current
@@ -41,27 +41,27 @@ class Login extends Component{
     
         <Legenda HtmlFor='email'>Email:</Legenda>
         <Campo 
-        ref={this.emailRef}
-        id='email' 
-        type= 'email'
-        name ='email'
-        placeholder='E-mail'
-        required
-        onChange={this.habilitaOudesabilita}
-     
+          ref={this.emailRef}
+          id='email' 
+          type= 'email'
+          name ='email'
+          placeholder='E-mail'
+          required
+          onChange={this.habilitaOuDesabilita}
+      
         
         />
     
       <Legenda htmlFor="senha">Senha:</Legenda>
         <Campo 
-        ref={this.senhaRef}
-        id="senha"
-        type="password"
-        name="senha"
-        placeholder="Senha"     
-        required
-        minLength={6}
-        onChange= {this.habilitaOudesabilita}
+          ref={this.senhaRef}//o ref associa a tag a referencia
+          id="senha"
+          type="password"
+          name="senha"
+          placeholder="Senha"     
+          required
+          minLength={6}
+          onChange= {this.habilitaOuDesabilita}
         />
 
         <Botao desabilitado={this.state.desabilitado}>

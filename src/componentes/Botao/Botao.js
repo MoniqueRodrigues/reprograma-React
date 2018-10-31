@@ -5,7 +5,7 @@ function Botao(props) {
     let classes = "botao"
   
     if (props.desabilitado) {
-      classes += "botao--desabilitado"
+      classes += " botao--desabilitado" // botao botao--desabilitado
     }
   
     return (

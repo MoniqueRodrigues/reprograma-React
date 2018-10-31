@@ -8,6 +8,6 @@ function Link(props) {
       <a className="link" href={props.url}>
         {props.children}
       </a>
-    );
+    )
   }
   export default Link

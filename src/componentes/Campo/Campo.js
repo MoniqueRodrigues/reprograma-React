@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './Campo.css'
 
 
@@ -18,20 +18,20 @@ if condicao mostra erro
 //CRIAR UMA FUNÇÃO CONSTRUTORA E DENTRO CRIAR UM OBJETO ESTADO INICIAL
 //CRIAR UMA FUNÇÃO VALIDA E CHAMAR A FUNÇÃO QUANDO O EVENTO ACONTECER
 
-class Campo extends React.Component {
+class Campo extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            modificado:false,erro: '' }
+        this.state = { erro: '' }
     }
-    temErro() {
-        if(!this.state.modificado|| this.state.erro){
-            return true
-        }else{
 
+    temErro = () => {
+        if ((this.props.required && !this.state.modificado) || this.state.erro) {
+            return true
+        } else {
+            return false
         }
     }
-
+    //evento valida quando houver modificação no campo
     valida = (evento) => {
         const input = evento.target
         const { value, type } = input
@@ -39,7 +39,7 @@ class Campo extends React.Component {
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         let mensagem = ''
 
-        if (required && value.trim() === '') {// email obrigatorio
+        if (required && value.trim() === '') {
             mensagem = "Campo obrigatório"
         } else if (minLength && value.length < minLength) {
             //pelo menos 10 carateres
@@ -47,14 +47,18 @@ class Campo extends React.Component {
         } else if (type === 'email' && !regex.test(value)) {
             mensagem = 'valor inválido'
         }
-        this.setState({ erro: mensagem }, this.props.onChange())
 
+        this.setState(
+            { modificado: true, erro: mensagem },
+            this.props.onChange
+
+        )
 
     }
 
 
 
-    render() {
+    render() { //atualiza o html na tela
 
         return (
             <div>
