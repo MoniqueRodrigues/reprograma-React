@@ -21,8 +21,14 @@ if condicao mostra erro
 class Campo extends Component {
     constructor(props) {
         super(props)
-        this.state = { erro: '' }
+        this.valor= ''
+        this.state = { modificado : false, erro: '' }
+
     }
+    getValor() {
+        return this.valor// o this é uma referência para um objeto
+
+    }//sua função retorna o valor que estava armazenado no this
 
     temErro = () => {
         if ((this.props.required && !this.state.modificado) || this.state.erro) {
@@ -35,6 +41,12 @@ class Campo extends Component {
     valida = (evento) => {
         const input = evento.target
         const { value, type } = input
+       
+        this.valor= value
+
+
+
+
         const { required, minLength } = this.props
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         let mensagem = ''
@@ -53,6 +65,7 @@ class Campo extends Component {
             this.props.onChange
 
         )
+        this.valor = value
 
     }
 
