@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { withRouter, BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import{Provider, connect } from 'react-redux'//conecta o component criado do redux com o react 
+import store from './redux/store'
 import Navbar from './componentes/NavBar/NavBar'
 import QuemSomos from './paginas/QuemSomos/QuemSomos'
 import Contato from './paginas/Contato/Contato'
@@ -11,28 +13,15 @@ import Home from './paginas/Home/Home'
 import './index.css'
 
 
-let usuario = JSON.parse(localStorage.getItem('usuario'))
-//o parse converte o texto para objeto, retorna e coloca o objeto dentro da var usuario
 
-
-function logaUsuario(dados){
-    const json= JSON.stringify(dados)// recebe o objeto dados e transforma em texto e guarda demtro da variavel
-    localStorage.setItem('usuario', json)// adiciona o item e salva. Recebe 02 parametros
-    usuario = dados
-
- 
-}
-
-function deslogaUsuario(){
-    localStorage.removeItem('usuario')// para remover do localStorage
-    usuario= null
-
-}
 
 
    
 //criar função app para retornar o html dele.
-function App() {
+function App(props) {
+    const usuario = props.usuario
+    const logaUsuario= props.logaUsuario
+    const deslogaUsuario = props. deslogaUsuario
     return (
         <div className="app">
             <Navbar usuario={usuario} deslogaUsuario={deslogaUsuario}/>
@@ -56,14 +45,58 @@ function App() {
             </Switch>
 
         </div>
-
         
     )       
-            
-            
-}                       
-          ReactDOM.render(
-            <BrowserRouter><App /></BrowserRouter >,
+                        
+}     
+function passaDadosDoEstadoParaMeuComponente(state){ 
+    const props= {
+        usuario: state.usuario
+
+    }
+    return props
+
+}
+
+function passaFuncoesQueDisparamAcoesViaProps(dispatch){// função que dispara a ação
+    const props ={
+        logaUsuario:(dados) => {
+            const acao = {
+                type: 'LOGA_USUARIO',
+                dados: dados
+            }
+            dispatch(acao)
+        },
+        deslogaUsuario:() =>{
+            const acao = {
+                type: 'DESLOGA_USUARIO'
+            }
+            dispatch(acao)
+        }
+    }
+    return props
+}
+
+
+const conectaNaStore = connect(
+    passaDadosDoEstadoParaMeuComponente, 
+    passaFuncoesQueDisparamAcoesViaProps
+
+)     
+// acesso a função estado e dispatch- as 2 retornarão a props que será passada para o app como atributo
+const AppConectada= withRouter(conectaNaStore(App))//conecta da store o componente app //             
+          
+
+
+
+
+
+ReactDOM.render(
+    <Provider store={store}>
+            <BrowserRouter> 
+            <AppConectada />
+            </BrowserRouter >
+     </Provider>,       
              document.getElementById('projeto')
           )
                         
