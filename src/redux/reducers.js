@@ -1,13 +1,19 @@
 import { combineReducers } from 'redux'//para mais de uma função- combinar
 
-const usuarioInicial = null//estado inicial
+let usuarioInicial = null//estado inicial
 
+
+const json = localStorage.getItem('usuario')// acessou para pegar o item usuario
+if(json){
+    usuarioInicial= JSON.parse(json)//coverter o texto em objeto usando o parse
+}
 //função redutora:
 function usuario(usuarioAtual = usuarioInicial, action){
     switch(action.type){
         case 'LOGA_USUARIO':
         const usuarioLogado= action.dados//dados estavam dentro do objeto ação
-        return usuarioLogado//retorna novo estado
+        const json= JSON.stringify(usuarioLogado)
+        localStorage.setItem('usuario', json)
 
         case 'DESLOGA_USUARIO'://ação despara o usuario
         const usuarioDeslogado= null

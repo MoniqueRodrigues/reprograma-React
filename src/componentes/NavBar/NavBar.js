@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'// conectar comp do react ao redux
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'// atualiza o componente sempre que a rota mudar(whithRouter)
 import logo from './logo.png'
 import Menu from '../Menu/Menu'
 import './NavBar.css'
@@ -51,4 +51,4 @@ const NavbarConectado = conectaNaStore(Navbar)
 
 
 
-export default NavbarConectado  
+export default withRouter( NavbarConectado )

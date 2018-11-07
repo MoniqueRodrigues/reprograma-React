@@ -47,9 +47,9 @@ render(){
 
     return (
         <nav className='navbar-menu'>
-            < a className={classesDoBotao} OnClick={this.abreOuFechaMenu}>
+            < button className={classesDoBotao} OnClick={this.abreOuFechaMenu}>
                 Menu
-            </a>
+            </ button>
 
 
             <ul className={classesDasOpcoes} >
