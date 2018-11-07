@@ -1,6 +1,5 @@
-import { createStore } from'redux'
+import { createStore } from'redux'// função que cria uma história
 import reducers from './reducers'
-
 
 
 const store = createStore(

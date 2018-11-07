@@ -1,4 +1,5 @@
 import React from 'react'
+
 import ReactDOM from 'react-dom'
 import { withRouter, BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import{Provider, connect } from 'react-redux'//conecta o component criado do redux com o react 
@@ -12,19 +13,21 @@ import Conta from './paginas/Conta/Conta'
 import Home from './paginas/Home/Home'
 import './index.css'
 
-
+//biblioteca
+//componentes
+//css
 
 
 
    
-//criar função app para retornar o html dele.
+//criar função app para retornar o html dele.// recebe o propos com suas 2 funçoes: loga usuario e deslogausuario
 function App(props) {
     const usuario = props.usuario
     const logaUsuario= props.logaUsuario
     const deslogaUsuario = props. deslogaUsuario
     return (
         <div className="app">
-            <Navbar usuario={usuario} deslogaUsuario={deslogaUsuario}/>
+            <Navbar/>
 
             <Switch>
 
@@ -32,10 +35,8 @@ function App(props) {
                     return usuario? <Home /> : <Redirect to= "/login"/>
 
                 }}/>
-                <Route path="/login" render={(props) =>{
-                    return <Login historico={props.history} onEnviar={logaUsuario}/>
-                }} />
 
+                <Route path="/login" component ={Login}/>
                 <Route path="/conta" component={Conta} />
                 <Route path="/quem-somos" component={QuemSomos} />
                 <Route path="/contato" component={Contato}/> 
@@ -58,7 +59,7 @@ function passaDadosDoEstadoParaMeuComponente(state){
 
 }
 
-function passaFuncoesQueDisparamAcoesViaProps(dispatch){// função que dispara a ação
+function passaFuncoesQueDisparamAcoesViaProps(dispatch){// função que dispara uma ação
     const props ={
         logaUsuario:(dados) => {
             const acao = {
@@ -92,7 +93,7 @@ const AppConectada= withRouter(conectaNaStore(App))//conecta da store o componen
 
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store}> 
             <BrowserRouter> 
             <AppConectada />
             </BrowserRouter >
@@ -101,7 +102,7 @@ ReactDOM.render(
           )
                         
       
-          
+          //o provider permite que todos os componentes se conectem na store.
 
 
 

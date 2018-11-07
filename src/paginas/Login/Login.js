@@ -1,4 +1,5 @@
 import React, {Component}from 'react'
+import { connect } from 'react-redux'// conectar comp do react ao redux
 import Link from '../../componentes/Link/Link'
 import Botao from '../../componentes/Botao/Botao'
 import Legenda from '../../componentes/Legenda/Legenda'
@@ -30,8 +31,8 @@ const campoSenha= this.senhaRef.current
       senha: campoSenha.getValor()
     }
 
-    this.props.onEnviar(dados)
-    this.props.historico.push('/')
+    this.props.logaUsuario(dados)
+    this.props.history.push('/')
 
   }
 
@@ -98,7 +99,22 @@ const campoSenha= this.senhaRef.current
 
     }
   }
+  function passaAcoesNoProps(dispatch){
+    return{
+      logaUsuario: (dados) =>{
+        const acao ={
+          type: 'LOGA_USUARIO',
+          dados: dados
+        }
+        dispatch(acao)
+      }
+    }
+
+  }
 
 
+const conectaNaStore = connect(null, passaAcoesNoProps)
+const LoginConectado= conectaNaStore(Login)
 
-export default Login
+
+export default LoginConectado

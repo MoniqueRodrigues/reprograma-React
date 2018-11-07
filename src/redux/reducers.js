@@ -9,10 +9,10 @@ function usuario(usuarioAtual = usuarioInicial, action){
         const usuarioLogado= action.dados//dados estavam dentro do objeto ação
         return usuarioLogado//retorna novo estado
 
-        case 'DESLOGA_USUARIO':
+        case 'DESLOGA_USUARIO'://ação despara o usuario
         const usuarioDeslogado= null
         return usuarioDeslogado
-        default:
+        default:          //não mexe no estado. retorna a ação inicial
         return usuarioAtual
 
     }//switch verifica se a acão é igual/ por convenção colocar em letra maiuscula 
