@@ -3,9 +3,8 @@ import { NavLink } from 'react-router-dom'//troca a rota da pagina
 import './Menu.css'
 
 
-
-//<Menu usuario= {props.usuario}>/
-//const props= {usuario:props.usuario}
+// <Menu usuario={props.usuario} deslogaUsuario={props.deslogaUsuario} />
+// const props = { usuario: props.usuario, deslogaUsuario: props.deslogaUsuario }
 
 class Menu extends Component {
     constructor(props) {
@@ -15,7 +14,6 @@ class Menu extends Component {
     }
     abreOuFechaMenu = () => {
         
-
         if (this.state.aberto) {
             //fechar
             this.setState({ aberto: false })//chama o render alterado
@@ -25,13 +23,10 @@ class Menu extends Component {
         }
 
     }
-    sair = () =>{
+    sair = () => {
         this.abreOuFechaMenu()
         this.props.deslogaUsuario()
     }
-
-
-
 
 
 render(){
