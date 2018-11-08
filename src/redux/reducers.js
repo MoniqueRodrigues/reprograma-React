@@ -14,8 +14,10 @@ function usuario(usuarioAtual = usuarioInicial, action){
         const usuarioLogado= action.dados//dados estavam dentro do objeto ação
         const json= JSON.stringify(usuarioLogado)
         localStorage.setItem('usuario', json)
+        return usuarioLogado
 
         case 'DESLOGA_USUARIO'://ação despara o usuario
+        localStorage.removeItem('usuario')
         const usuarioDeslogado= null
         return usuarioDeslogado
         default:          //não mexe no estado. retorna a ação inicial

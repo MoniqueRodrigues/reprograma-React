@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'// conectar comp do react ao redux
 import { Link, withRouter } from 'react-router-dom'// atualiza o componente sempre que a rota mudar(whithRouter)
+import {deslogaUsuario} from '../../redux/action'
 import logo from './logo.png'
 import Menu from '../Menu/Menu'
 import './NavBar.css'
@@ -24,31 +25,11 @@ function Navbar(props) {
 
     )
 }
-function pegaDadosDoUsario(state) {
-    return {
-        usuario: state.usuario
-    }
-}
 
 
 
-function passaNoPropsDisparadoresDeAcao(dispatch) {
-    return {
-        deslogaUsuario: () => {
-            const acao = {
-                type: 'DESLOGA_USUARIO'
-            }
-            dispatch(acao)
-
-        }
-    }
-}
-const conectaNaStore = connect(
-    pegaDadosDoUsario,
-    passaNoPropsDisparadoresDeAcao
-)
-const NavbarConectado = conectaNaStore(Navbar)
 
 
 
-export default withRouter( NavbarConectado )
+
+export default withRouter(connect((state) => ({usuario: state.usuario}),{deslogaUsuario})(Navbar) )
