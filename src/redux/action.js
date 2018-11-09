@@ -23,3 +23,10 @@ export function deslogaUsuario(dispatch) {
   }
 }
   
+
+export function cadastraPostit(dados){
+    return{
+        type: 'CADASTRA_POSTIT',
+        dados
+    }
+}

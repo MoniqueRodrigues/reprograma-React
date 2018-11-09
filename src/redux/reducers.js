@@ -8,7 +8,7 @@ if(json){
     usuarioInicial= JSON.parse(json)//coverter o texto em objeto usando o parse
 }
 //função redutora:
-function usuario(usuarioAtual = usuarioInicial, action){
+function usuario(state= usuarioInicial, action){
     switch(action.type){
         case 'LOGA_USUARIO':
         const usuarioLogado= action.dados//dados estavam dentro do objeto ação
@@ -20,18 +20,20 @@ function usuario(usuarioAtual = usuarioInicial, action){
         localStorage.removeItem('usuario')
         const usuarioDeslogado= null
         return usuarioDeslogado
-        default:          //não mexe no estado. retorna a ação inicial
-        return usuarioAtual
+        default:  //não mexe no estado. retorna a ação inicial
+        return state
 
     }//switch verifica se a acão é igual/ por convenção colocar em letra maiuscula 
 
 }
 
 //função redutora:
-function postits(postitsAtuais =[], action){
+function postits(state =[], action){
     switch(action.type){
+        case'CADASTRA_POSTIT':
+        return state.concat(action.dados)
         default:// retorna estado atual
-        return postitsAtuais
+        return state
     }
 
 }
