@@ -1,14 +1,17 @@
-import { createStore } from'redux'// função que cria uma história
+import { createStore, applyMiddleware, compose } from'redux'// função que cria uma história
+import thunk from 'redux-thunk' //chama a api antes de disparar a ação
 import reducers from './reducers'
 
+const composeEnhancers= 
+ window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const store = createStore(
+ const store = createStore(
     reducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    composeEnhancers(
+        applyMiddleware(thunk)
+    )
 )
-// todas as vezes que acontecer uma ação.
-
-
+   
 
 
 

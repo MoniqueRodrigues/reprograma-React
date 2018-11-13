@@ -1,72 +1,91 @@
-import React,{Component} from  'react'
-import {cadastraPostit} from '../../redux/action'
+import React, { Component } from 'react'
+import { cadastraPostit, alteraPostit, removePostit } from '../../redux/action'
 import { connect } from 'react-redux'
+import { MdDelete } from 'react-icons/md'
 import './Postit.css'
 
-
-
-class Postit extends Component{
-    constructor(props){
-        
+class Postit extends Component {
+  constructor(props) {
     super(props)
+    this.state = { editando: false }
+  }
 
+  cadastraOuAlteraPostit = (evento) => {
+    evento.preventDefault()
+
+    const cadastrando = !this.props.id
+    const form = evento.target
+
+    if (cadastrando) {
+      const dados = {
+        titulo: form.titulo.value,
+        texto: form.texto.value
+      }
+      
+      this.props.cadastraPostit(dados)
+
+      
+      form.reset()
+    } else {
+      const dados = {
+        id: this.props.id,
+        titulo: form.titulo.value,
+        texto: form.texto.value
+      }
+
+      this.props.alteraPostit(dados)
+
+      this.setState({ editando: false })
     }
-    
-    render(){
-        const cadastrando = !this.props.id
-        
-        return(
-            <form className="postit" onSubmit={this.cadastraOuAlteraPostit}> 
+  }
 
-                <input 
-                    className="postit__titulo"
-                    type="text"
-                    name= "titulo" 
-                    placeholder="Titulo"
-                    autoComplete= 'off'
-                    defaultValue={this.props.titulo}
+  habilitaEdicao = () => {
+    this.setState({ editando: true })
+  }
 
-                    />
+  removePostit = (evento) => {
+    evento.stopPropagation()
+    const id = this.props.id
+    this.props.removePostit(id)
+  }
 
-                <textarea className="postit__texto" 
-                        name="texto" 
-                        placeholder="Digite um texto..." 
-                        row={5}
-                        autoComplete= 'off'
-                        defaultValue={this.props.titulo}
-                        
-                 />
+  render() {
+    const cadastrando = !this.props.id
 
-                <button className= "postit__botao-concluir"> Concluido</button>
-            </form>
-        )
-
-    }
-    cadastraOuAlteraPostit = (evento) =>{
-        evento.preventDefault()
-        const form = evento.target 
-
-        const dados ={
-            id: `d4a0dfb0-5f90-46dc-8bb4-bbbfa338cceb${Math.random(100)}`,
-            titulo: form.titulo.value,
-            texto: form.texto.value
-        }
-
-        this.props.cadastraPostit(dados) 
-        form.reset()
-        
-        //função para disparar a ação
-    }   
-   
-
-
+    return (
+      <form className="postit" onClick={this.habilitaEdicao} onSubmit={this.cadastraOuAlteraPostit}>
+        {!cadastrando && this.state.editando && (
+          <button className="postit__botao-remover" type="button" onClick={this.removePostit}>
+            <MdDelete />
+          </button>
+        )}
+        <input
+          className="postit__titulo"
+          type="text"
+          name="titulo"
+          placeholder="Título"
+          autoComplete="off"
+          defaultValue={this.props.titulo}
+        />
+        <textarea
+          className="postit__texto"
+          name="texto"
+          placeholder="Digite um texto..."
+          rows={5}
+          autoComplete="off"
+          defaultValue={this.props.texto}
+        />
+        {(cadastrando || this.state.editando) && (
+          <button className="postit__botao-concluir">
+            Concluído
+          </button>
+        )}
+      </form>
+    )
+  }
 }
 
 export default connect(
-    null,
-    {cadastraPostit}
+  null, 
+  { cadastraPostit, alteraPostit, removePostit }
 )(Postit)
-
-// connect pega dados do estado e coloca dentro do props
-// tem acesso ao dispatch, cria funçao para disparar a ação
-//cria o objeto props com as 2 funções e no final passa para a tag(componente criado)
